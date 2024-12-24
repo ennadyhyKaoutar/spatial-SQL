@@ -12,3 +12,84 @@
        nom VARCHAR(255),
        geom GEOMETRY(Point, 4326)
    );
+# Étape 2 : Insérer des Données avec QGIS
+
+### Connexion PostgreSQL
+1. Lancez QGIS.
+2. Pour établir une connexion PostgreSQL :
+   - Faites un clic droit sur **PostgreSQL** dans le panneau **Explorateur**.
+   - Cliquez sur **Nouvelle connexion**.
+   - Remplissez les informations de connexion (hôte, base de données, utilisateur, mot de passe).
+   - Cliquez sur **Tester la connexion**, puis validez.
+3. Double-cliquez sur la table **points_of_interests** pour l'ajouter en tant que couche dans QGIS.
+4. Activez le mode édition.
+5. Ajoutez des points directement sur la carte.
+6. Sauvegardez les modifications.
+
+---
+
+# Étape 3 : Vérification dans pgAdmin
+
+1. Ouvrez **pgAdmin**.
+2. Exécutez la requête suivante pour vérifier les données :
+   ```sql
+   SELECT * FROM points_of_interests;
+# 2. Créer une Table Spatiale (Polygones)
+
+### Étape 1 : Création de la Table `zones_protegees`
+
+1. Ouvrez **pgAdmin 4**.
+2. Exécutez la commande suivante dans le **Query Tool** :
+   ```sql
+   CREATE TABLE zones_protegees (
+       id SERIAL PRIMARY KEY,
+       nom VARCHAR(255),
+       geom GEOMETRY(Polygon, 4326)
+   );
+# Étape 2 : Insérer des Données avec QGIS
+
+1. **Répétez les étapes de connexion PostgreSQL dans QGIS** comme mentionné précédemment.
+2. **Double-cliquez sur la table `zones_protegees`** pour l'ajouter en tant que couche.
+3. **Activez le mode édition**.
+4. **Ajoutez des polygones** directement sur la carte.
+5. **Sauvegardez les modifications**.
+
+---
+
+# Étape 3 : Vérification dans pgAdmin
+
+1. Ouvrez **pgAdmin**.
+2. Exécutez la requête suivante pour vérifier les données :
+   ```sql
+   SELECT * FROM zones_protegees;
+# Créer une Table Spatiale (LineStrings)
+
+## Étape 1 : Création de la Table `routes`
+
+1. Ouvrez **pgAdmin 4**.
+2. Exécutez la commande suivante dans le **Query Tool** :
+   ```sql
+   CREATE TABLE routes (
+       id SERIAL PRIMARY KEY,
+       nom VARCHAR(255),
+       geom GEOMETRY(LineString, 4326)
+   );
+# Étape 2 : Insérer des Données avec QGIS
+
+1. **Répétez les étapes de connexion PostgreSQL dans QGIS** comme mentionné précédemment.
+   
+2. **Double-cliquez sur la table `routes`** pour l'ajouter en tant que couche dans QGIS.
+
+3. **Activez le mode édition** en cliquant sur l'icône de stylo ou en sélectionnant l'option **Mode Édition** dans le menu contextuel de la couche.
+
+4. **Ajoutez des lignes (LineStrings)** directement sur la carte en traçant des segments représentant des routes, chemins, ou autres éléments linéaires. Vous pouvez utiliser l'outil **Tracer la ligne** pour ajouter des géométries.
+
+5. **Sauvegardez les modifications** en cliquant sur l'icône de disquette ou en sélectionnant **Sauvegarder les modifications** dans le menu **Édition**.
+
+# Étape 3 : Vérification dans pgAdmin
+
+1. **Ouvrez pgAdmin**.
+
+2. Exécutez la requête suivante pour vérifier les données insérées dans la table `routes` :
+   ```sql
+   SELECT * FROM routes;
