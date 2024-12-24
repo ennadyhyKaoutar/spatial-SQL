@@ -29,4 +29,19 @@
 3. Dans l'éditeur de requêtes, tapez la commande suivante :
    ```sql
    CREATE EXTENSION postgis;
+# Vérifier l'Exécution de la Requête dans pgAdmin
+
+1. **Exécutez la requête dans pgAdmin** :
+   - Cliquez sur le bouton **Exécuter** dans la barre d'outils ou appuyez sur la touche **F5** de votre clavier pour exécuter la requête que vous avez entrée dans le **Query Tool**.
+
+# Vérifier l'Installation de PostGIS
+
+1. **Développez votre base de données** :
+   - Dans pgAdmin, localisez votre base de données, par exemple `spatial-db-1`.
+
+2. **Accédez à `Schemas`** :
+   - Cliquez sur **Schemas** > **Public** > **Tables**.
+
+3. **Vérifiez la présence de la table `spatial_ref_sys`** :
+   - La table `spatial_ref_sys` contient les informations sur les systèmes de référence spatiale utilisés par PostGIS. Si cette table est présente, cela signifie que **PostGIS a été installé avec succès** sur votre base de données.
 
