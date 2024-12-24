@@ -1,2 +1,32 @@
 #TD1
 ##Installation de PostGis et création d’une BD spatial
+# Installation de PostGIS et Création d'une Base de Données Spatiale
+
+## 1. Télécharger et Installer PostgreSQL
+1. Accédez à la [page de téléchargement de PostgreSQL](https://www.postgresql.org/download/) pour télécharger la dernière version compatible avec votre système d'exploitation (Linux, MacOS, Windows, BSD, Solaris).
+2. Suivez le guide d'installation pour installer PostgreSQL sur votre machine.
+3. Pendant l'installation, définissez un mot de passe pour l'utilisateur `postgres`. **Notez ce mot de passe**, car vous en aurez besoin pour vous connecter à PostgreSQL.
+
+## 2. Télécharger et Installer PostGIS
+1. Lors de l'installation de PostgreSQL, cochez **tous les composants** nécessaires, y compris **Stack Builder**.
+2. À la fin de l'installation, **lancez Stack Builder**. Ce dernier vous permettra de télécharger PostGIS, une extension de base de données spatiale.
+3. Dans Stack Builder :
+   - Sélectionnez la version de PostgreSQL correspondant à votre installation.
+   - Choisissez l'extension **PostGIS** (elle sera généralement cochée automatiquement).
+   - Vous pouvez cocher « Créer une base de données spatiale » si vous le souhaitez, mais ce tutoriel vous guidera pour la création via pgAdmin 4.
+4. Suivez les étapes de l'assistant et spécifiez le dossier d'installation.
+5. Une fois l'installation terminée, cliquez sur **Fermer** pour finaliser l'installation.
+
+## 3. Créer une Base de Données avec pgAdmin 4
+1. Lancez **pgAdmin 4**, un outil de gestion des bases de données PostgreSQL.
+2. Connectez-vous avec le mot de passe que vous avez défini lors de l'installation.
+3. Développez la section **Servers**, faites un clic droit sur PostgreSQL > **Create** > **Database**.
+4. Donnez un nom à votre base de données (par exemple, `spatial-db-1`), puis cliquez sur **Save**.
+
+## 4. Ajouter l'Extension PostGIS à la Base de Données
+1. Dans pgAdmin 4, développez la section **Databases** et sélectionnez votre base de données (`spatial-db-1`).
+2. Faites un clic droit sur votre base de données et cliquez sur **Query Tool**.
+3. Dans l'éditeur de requêtes, tapez la commande suivante :
+   ```sql
+   CREATE EXTENSION postgis;
+
