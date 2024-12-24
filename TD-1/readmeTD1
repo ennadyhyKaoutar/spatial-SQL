@@ -1,47 +1,31 @@
-#TD1
-##Installation de PostGis et création d’une BD spatial
-# Installation de PostGIS et Création d'une Base de Données Spatiale
+# TD1
+## Installation of PostGIS and Creation of a Spatial Database
+# Installation of PostGIS and Creation of a Spatial Database
 
-## 1. Télécharger et Installer PostgreSQL
-1. Accédez à la [page de téléchargement de PostgreSQL](https://www.postgresql.org/download/) pour télécharger la dernière version compatible avec votre système d'exploitation (Linux, MacOS, Windows, BSD, Solaris).
-2. Suivez le guide d'installation pour installer PostgreSQL sur votre machine.
-3. Pendant l'installation, définissez un mot de passe pour l'utilisateur `postgres`. **Notez ce mot de passe**, car vous en aurez besoin pour vous connecter à PostgreSQL.
+## 1. Download and Install PostgreSQL
+1. Go to the [PostgreSQL download page](https://www.postgresql.org/download/) to download the latest version compatible with your operating system (Linux, MacOS, Windows, BSD, Solaris).
+2. Follow the installation guide to install PostgreSQL on your machine.
+3. During installation, set a password for the `postgres` user. **Note this password**, as you will need it to connect to PostgreSQL.
 
-## 2. Télécharger et Installer PostGIS
-1. Lors de l'installation de PostgreSQL, cochez **tous les composants** nécessaires, y compris **Stack Builder**.
-2. À la fin de l'installation, **lancez Stack Builder**. Ce dernier vous permettra de télécharger PostGIS, une extension de base de données spatiale.
-3. Dans Stack Builder :
-   - Sélectionnez la version de PostgreSQL correspondant à votre installation.
-   - Choisissez l'extension **PostGIS** (elle sera généralement cochée automatiquement).
-   - Vous pouvez cocher « Créer une base de données spatiale » si vous le souhaitez, mais ce tutoriel vous guidera pour la création via pgAdmin 4.
-4. Suivez les étapes de l'assistant et spécifiez le dossier d'installation.
-5. Une fois l'installation terminée, cliquez sur **Fermer** pour finaliser l'installation.
+## 2. Download and Install PostGIS
+1. During the installation of PostgreSQL, check **all necessary components**, including **Stack Builder**.
+2. After installation, **launch Stack Builder**. This will allow you to download PostGIS, a spatial database extension.
+3. In Stack Builder:
+   - Select the PostgreSQL version corresponding to your installation.
+   - Choose the **PostGIS** extension (it will usually be checked automatically).
+   - You can check "Create a spatial database" if you wish, but this tutorial will guide you to create it via pgAdmin 4.
+4. Follow the wizard steps and specify the installation folder.
+5. Once installation is complete, click **Close** to finalize the installation.
 
-## 3. Créer une Base de Données avec pgAdmin 4
-1. Lancez **pgAdmin 4**, un outil de gestion des bases de données PostgreSQL.
-2. Connectez-vous avec le mot de passe que vous avez défini lors de l'installation.
-3. Développez la section **Servers**, faites un clic droit sur PostgreSQL > **Create** > **Database**.
-4. Donnez un nom à votre base de données (par exemple, `spatial-db-1`), puis cliquez sur **Save**.
+## 3. Create a Database with pgAdmin 4
+1. Launch **pgAdmin 4**, a PostgreSQL database management tool.
+2. Log in with the password you set during installation.
+3. Expand the **Servers** section, right-click on PostgreSQL > **Create** > **Database**.
+4. Name your database (e.g., `spatial-db-1`), then click **Save**.
 
-## 4. Ajouter l'Extension PostGIS à la Base de Données
-1. Dans pgAdmin 4, développez la section **Databases** et sélectionnez votre base de données (`spatial-db-1`).
-2. Faites un clic droit sur votre base de données et cliquez sur **Query Tool**.
-3. Dans l'éditeur de requêtes, tapez la commande suivante :
+## 4. Add the PostGIS Extension to the Database
+1. In pgAdmin 4, expand the **Databases** section and select your database (`spatial-db-1`).
+2. Right-click on your database and click **Query Tool**.
+3. In the query editor, type the following command:
    ```sql
    CREATE EXTENSION postgis;
-# Vérifier l'Exécution de la Requête dans pgAdmin
-
-1. **Exécutez la requête dans pgAdmin** :
-   - Cliquez sur le bouton **Exécuter** dans la barre d'outils ou appuyez sur la touche **F5** de votre clavier pour exécuter la requête que vous avez entrée dans le **Query Tool**.
-
-# Vérifier l'Installation de PostGIS
-
-1. **Développez votre base de données** :
-   - Dans pgAdmin, localisez votre base de données, par exemple `spatial-db-1`.
-
-2. **Accédez à `Schemas`** :
-   - Cliquez sur **Schemas** > **Public** > **Tables**.
-
-3. **Vérifiez la présence de la table `spatial_ref_sys`** :
-   - La table `spatial_ref_sys` contient les informations sur les systèmes de référence spatiale utilisés par PostGIS. Si cette table est présente, cela signifie que **PostGIS a été installé avec succès** sur votre base de données.
-
