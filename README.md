@@ -1,6 +1,6 @@
 # spatial-SQL
 ##TD1
-###this TD will help you to install postgis
+###Installation de PostGis et création d’une BD spatial
 ##TD2
 ### this TD will help you to work with a spatial query
 ###TD3
