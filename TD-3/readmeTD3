@@ -24,3 +24,76 @@ de PostGIS https://postgis.net/docs/reference.html)
    ```sql
    SELECT COUNT(*) FROM parcels;
    SELECT * FROM parcels LIMIT 5;
+## Étape 3 : Sélectionner le Point d’Incendie
+
+### Identifiez le centroïde de la parcelle `gid = 462273` :
+```sql
+SELECT ST_Centroid(geom) AS fire_point
+FROM parcels
+WHERE gid = 462273;
+# Étapes pour Identifier la Zone de Risque et Analyser les Données
+
+## Étape 4 : Identifier la Zone de Risque (1 km autour du Point d’Incendie)
+
+### Créer une couche QGIS pour la zone de risque
+1. **Dupliquez la couche `parcels` dans QGIS** et renommez-la **fire-risk**.
+2. Cliquez droit sur la couche **fire-risk** et sélectionnez **Filtrer**.
+3. Ajoutez l'expression suivante dans la zone de filtrage :
+   ```sql
+   ST_DWithin(
+       geom, 
+       (SELECT ST_Centroid(geom) 
+        FROM "public"."parcels" 
+        WHERE gid = 462273), 
+       1000
+   )
+## Ajouter un Deuxième Foyer d’Incendie
+Modifiez le filtre pour inclure deux points d’incendie (`gid = 460957` et `gid = 462273`) :
+
+```sql
+ST_DWithin(
+    geom, 
+    (SELECT ST_Union(ST_Centroid(geom)) 
+     FROM "public"."parcels" 
+     WHERE gid IN (460957, 462273)), 
+    1000
+)
+# Étape 5 : Requêtes SQL Spatiales
+
+### Question 1 : Combien de parcelles se trouvent dans un rayon de 1 km autour des deux parcelles (`gid = 460957` et `gid = 462273`) ?
+
+```sql
+SELECT COUNT(*)
+FROM parcels
+WHERE ST_DWithin(
+    geom, 
+    (SELECT ST_Union(ST_Centroid(geom)) 
+     FROM parcels 
+     WHERE gid IN (460957, 462273)), 
+    1000
+);
+### Question 2 : Quelle est la superficie totale des parcelles proches de l’incendie ?
+
+```sql
+SELECT SUM(ST_Area(geom::geography))
+FROM parcels
+WHERE ST_DWithin(
+    geom, 
+    (SELECT ST_Union(ST_Centroid(geom)) 
+     FROM parcels 
+     WHERE gid IN (460957, 462273)), 
+    1000
+);
+# Étape 6 : Résultat Final
+
+### Affichage dans QGIS
+- Les zones de risque (1 km autour des points d’incendie) sont affichées sur la carte.
+- Appliquez une symbologie personnalisée (par exemple, une couleur vive ou une bordure) pour différencier les zones de risque.
+
+### Résultats des Requêtes SQL
+1. **Nombre de parcelles dans la zone de risque :**  
+   Par exemple : `42`.
+
+2. **Superficie totale des parcelles :**  
+   Par exemple : `123456.78 m²`.
+
