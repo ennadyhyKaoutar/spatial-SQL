@@ -1,8 +1,8 @@
 # spatial-SQL
 ## TD1
-### Installation de PostGis et création d’une BD spatial
+### Installation of PostGIS and creation of a spatial database
 ## TD2
-### Création de tables avec colonnes spatiales
+### Creation of tables with spatial columns
 ### TD3
-### Fonctions de SQL Spatial
-### Combien de parcelles sont situées à moins de 1 km d’un point d’incendie ?
+### Spatial SQL Functions
+### How many parcels are located within 1 km of a fire point?
