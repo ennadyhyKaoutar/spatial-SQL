@@ -1,3 +1,25 @@
 #TD3
 ##Fonctions de SQL Spatial
 ###Combien de parcelles sont situées à moins de 1 km d’un point d’incendie ?
+# TD-3 : Fonctions SQL Spatiales
+
+## Objectif
+Déterminer combien de parcelles en Floride se trouvent dans un rayon de 1 km autour d’un point d’incendie, en utilisant PostGIS et QGIS.
+
+---
+
+## Étape 1 : Importer le Shapefile dans PostGIS
+1. Téléchargez le shapefile des parcelles de Floride.
+2. Ouvrez **PostGIS Shapefile Import/Export Manager** :
+   - Appuyez sur la touche **Windows**, recherchez "Shapefile" et ouvrez l'outil.
+   - Sélectionnez le shapefile des parcelles de Floride.
+   - Importez-le dans une table PostgreSQL.
+
+---
+
+## Étape 2 : Vérifier les Données Importées
+1. Ouvrez **pgAdmin**.
+2. Exécutez les requêtes suivantes pour vérifier les données :
+   ```sql
+   SELECT COUNT(*) FROM parcels;
+   SELECT * FROM parcels LIMIT 5;
