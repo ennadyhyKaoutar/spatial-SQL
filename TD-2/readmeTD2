@@ -1,2 +1,14 @@
 #TD2
 ## Création de tables avec colonnes spatiales
+# TD-2 : Création de Tables avec Colonnes Spatiales
+
+## 1. Créer une Table Spatiale (Points)
+### Étape 1 : Création de la Table `points_of_interests`
+1. Ouvrez **pgAdmin 4**.
+2. Exécutez la commande suivante dans le **Query Tool** :
+   ```sql
+   CREATE TABLE points_of_interests (
+       id SERIAL PRIMARY KEY,
+       nom VARCHAR(255),
+       geom GEOMETRY(Point, 4326)
+   );
