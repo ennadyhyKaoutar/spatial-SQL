@@ -9,7 +9,8 @@ Déterminer combien de parcelles en Floride se trouvent dans un rayon de 1 km au
 ---
 
 ## Étape 1 : Importer le Shapefile dans PostGIS
-1. Téléchargez le shapefile des parcelles de Floride.
+1. Téléchargez le shapefile des parcelles de Floride.(Pour chercher les fonctionalité st_xxxx , veuillez vous-référer à la documentation officielle
+de PostGIS https://postgis.net/docs/reference.html)
 2. Ouvrez **PostGIS Shapefile Import/Export Manager** :
    - Appuyez sur la touche **Windows**, recherchez "Shapefile" et ouvrez l'outil.
    - Sélectionnez le shapefile des parcelles de Floride.
