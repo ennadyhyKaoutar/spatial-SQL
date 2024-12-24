@@ -1,99 +1,98 @@
 #TD3
-##Fonctions de SQL Spatial
-###Combien de parcelles sont situées à moins de 1 km d’un point d’incendie ?
-# TD-3 : Fonctions SQL Spatiales
+##Spatial SQL Functions
+###How many parcels are located within 1 km of a fire point?
+# TD-3: Spatial SQL Functions
 
-## Objectif
-Déterminer combien de parcelles en Floride se trouvent dans un rayon de 1 km autour d’un point d’incendie, en utilisant PostGIS et QGIS.
-
----
-
-## Étape 1 : Importer le Shapefile dans PostGIS
-1. Téléchargez le shapefile des parcelles de Floride.(Pour chercher les fonctionalité st_xxxx , veuillez vous-référer à la documentation officielle
-de PostGIS https://postgis.net/docs/reference.html)
-2. Ouvrez **PostGIS Shapefile Import/Export Manager** :
-   - Appuyez sur la touche **Windows**, recherchez "Shapefile" et ouvrez l'outil.
-   - Sélectionnez le shapefile des parcelles de Floride.
-   - Importez-le dans une table PostgreSQL.
+## Objective
+To determine how many parcels in Florida are located within a 1 km radius of a fire point, using PostGIS and QGIS.
 
 ---
 
-## Étape 2 : Vérifier les Données Importées
-1. Ouvrez **pgAdmin**.
-2. Exécutez les requêtes suivantes pour vérifier les données :
-   ```sql
-   SELECT COUNT(*) FROM parcels;
-   SELECT * FROM parcels LIMIT 5;
-## Étape 3 : Sélectionner le Point d’Incendie
+## Step 1: Import the Shapefile into PostGIS
+1. Download the shapefile of the Florida parcels. (To search for the st_xxxx features, please refer to the official PostGIS
+documentation https://postgis.net/docs/reference.html)
+2. Open **PostGIS Shapefile Import/Export Manager**:
+- Press the **Windows** key, search for "Shapefile" and open the tool.
+- Select the shapefile of the Florida parcels.
+- Import it into a PostgreSQL table.
 
-### Identifiez le centroïde de la parcelle `gid = 462273` :
+---
+
+## Step 2: Verify Imported Data
+1. Open **pgAdmin**.
+2. Run the following queries to verify the data:
+```sql
+SELECT COUNT(*) FROM parcels;
+SELECT * FROM parcels LIMIT 5;
+## Step 3: Select Fire Point
+
+### Identify the centroid of the parcel `gid = 462273`:
 ```sql
 SELECT ST_Centroid(geom) AS fire_point
 FROM parcels
 WHERE gid = 462273;
-# Étapes pour Identifier la Zone de Risque et Analyser les Données
+# Steps to Identify the Risk Area and Analyze the Data
 
-## Étape 4 : Identifier la Zone de Risque (1 km autour du Point d’Incendie)
+## Step 4: Identify the Risk Area (1 km around the Fire Point)
 
-### Créer une couche QGIS pour la zone de risque
-1. **Dupliquez la couche `parcels` dans QGIS** et renommez-la **fire-risk**.
-2. Cliquez droit sur la couche **fire-risk** et sélectionnez **Filtrer**.
-3. Ajoutez l'expression suivante dans la zone de filtrage :
-   ```sql
-   ST_DWithin(
-       geom, 
-       (SELECT ST_Centroid(geom) 
-        FROM "public"."parcels" 
-        WHERE gid = 462273), 
-       1000
-   )
-## Ajouter un Deuxième Foyer d’Incendie
-Modifiez le filtre pour inclure deux points d’incendie (`gid = 460957` et `gid = 462273`) :
+### Create a QGIS layer for the risk area
+1. **Duplicate the `parcels` layer in QGIS** and rename it **fire-risk**.
+2. Right click on the **fire-risk** layer and select **Filter**.
+3. Add the following expression to the filter box:
+```sql
+ST_DWithin(
+geom,
+(SELECT ST_Centroid(geom)
+FROM "public"."parcels"
+WHERE gid = 462273),
+1000
+)
+## Add a Second Fire
+Modify the filter to include two fire points (`gid = 460957` and `gid = 462273`):
 
 ```sql
 ST_DWithin(
-    geom, 
-    (SELECT ST_Union(ST_Centroid(geom)) 
-     FROM "public"."parcels" 
-     WHERE gid IN (460957, 462273)), 
-    1000
+geom,
+(SELECT ST_Union(ST_Centroid(geom))
+FROM "public"."parcels"
+WHERE gid IN (460957, 462273)),
+1000
 )
-# Étape 5 : Requêtes SQL Spatiales
+# Step 5: Spatial SQL Queries
 
-### Question 1 : Combien de parcelles se trouvent dans un rayon de 1 km autour des deux parcelles (`gid = 460957` et `gid = 462273`) ?
+### Question 1: How many parcels are in within a 1 km radius around the two parcels (`gid = 460957` and `gid = 462273`)?
 
 ```sql
 SELECT COUNT(*)
 FROM parcels
 WHERE ST_DWithin(
-    geom, 
-    (SELECT ST_Union(ST_Centroid(geom)) 
-     FROM parcels 
-     WHERE gid IN (460957, 462273)), 
-    1000
+geom,
+(SELECT ST_Union(ST_Centroid(geom))
+FROM parcels
+WHERE gid IN (460957, 462273)),
+1000
 );
-### Question 2 : Quelle est la superficie totale des parcelles proches de l’incendie ?
+### Question 2: What is the total area of ​​the parcels near the fire?
 
 ```sql
 SELECT SUM(ST_Area(geom::geography))
 FROM parcels
 WHERE ST_DWithin(
-    geom, 
-    (SELECT ST_Union(ST_Centroid(geom)) 
-     FROM parcels 
-     WHERE gid IN (460957, 462273)), 
-    1000
+geom,
+(SELECT ST_Union(ST_Centroid(geom))
+FROM parcels
+WHERE gid IN (460957, 462273)),
+1000
 );
-# Étape 6 : Résultat Final
+# Step 6: Final Result
 
-### Affichage dans QGIS
-- Les zones de risque (1 km autour des points d’incendie) sont affichées sur la carte.
-- Appliquez une symbologie personnalisée (par exemple, une couleur vive ou une bordure) pour différencier les zones de risque.
+### Display in QGIS
+- The risk zones (1 km around the fire points) are displayed on the map.
+- Apply custom symbology (e.g. bright color or border) to differentiate the risk zones.
 
-### Résultats des Requêtes SQL
-1. **Nombre de parcelles dans la zone de risque :**  
-   Par exemple : `42`.
+### SQL Query Results
+1. **Number of parcels in the risk zone:**
+For example: `42`.
 
-2. **Superficie totale des parcelles :**  
-   Par exemple : `123456.78 m²`.
-
+2. **Total area of ​​parcels:**
+For example: `123456.78 m²`.
